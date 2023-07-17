@@ -1,0 +1,12 @@
+tvshow = input("What is your favorite show blud? ")
+if tvshow == "Game of Thrones":
+  print("OBVIOUSLY")
+  favechar = input("Who dey mia give you? ")
+  if favechar == "Cersei Lannister":
+    print("You are a very dangerous girl")
+  else:
+    print("Chale shine your eyes")
+elif tvshow == "GI Joe":
+  print("Aww,sad times")
+else:
+  print("Get outta here mannnnn")
