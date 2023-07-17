@@ -1,0 +1,22 @@
+print("Generation Identifier")
+print()
+year_of_birth = int(input("Which year were you born? "))
+current_year = int(input("Which year are we in? "))
+print()
+if year_of_birth >= 1883 and year_of_birth <= current_year:
+    if year_of_birth >= 1928 and year_of_birth <= 1945:
+        print("Silent Generation")
+    elif year_of_birth >= 1946 and year_of_birth <= 1964:
+        print("Baby Boomers")
+    elif year_of_birth >= 1965 and year_of_birth <= 1980:
+        print("Generation X like the X-men")
+    elif year_of_birth >= 1981 and year_of_birth <= 1996:
+        print("Millennial! Avocado toast and starbucks much!")
+    elif year_of_birth >= 1997 and year_of_birth <= 2012:
+        print("Generation Z as in zebra")
+    elif year_of_birth >= 2013:
+        print("Generation Alpha like the wolf pack")
+    else:
+        print("Unknown Generation")
+else:
+    print("Invalid input. Please enter a valid year.")
