@@ -1,0 +1,29 @@
+print("Exam Grade Calculator")
+print()
+Exam_name = input("Name of exam: ")
+
+if Exam_name == "Computer Science":
+    print()
+    MaxScore = int(input("Max. Possible Score: "))
+
+    if MaxScore == 100:
+        Yscore = int(input("Your score: "))
+
+        if Yscore >= 90 and Yscore <= 100:
+            print("You got", f"{Yscore}%", "which is an A+! ")
+        elif Yscore >= 80 and Yscore <= 89:
+            print("You got", f"{Yscore}%", "which is a A-! ")
+        elif Yscore >= 70 and Yscore <= 79:
+            print("You got", f"{Yscore}%", "which is a B! ")
+        elif Yscore >= 60 and Yscore <= 69:
+            print("You got", f"{Yscore}%", "which is a C ")
+        elif Yscore >= 50 and Yscore <= 59:
+            print("You got", f"{Yscore}%", "which is a D ")
+        elif Yscore < 50:
+            print("You got", f"{Yscore}%", "\033[91mwhich is a U\033[0m")
+        else:
+            print("Invalid input. Please enter a valid score.")
+    else:
+        print("Invalid input. Max possible score should be 100.")
+else:
+    print("Invalid input. Please enter a valid exam name.")   
