@@ -1,0 +1,18 @@
+print("Seconds in a Year")
+print()
+daysinyear = (365)
+daysinleapyear = (366)
+hoursinday = (24)
+minutesinhour = (60)
+secondsinmin = (60)
+hoursinnorm_year = (24 * 365)
+hoursinleap_year =(24 * 366)
+minsinnorm_year = (60 * hoursinnorm_year)
+minsinleap_year = (60 * hoursinleap_year)
+secinnorm_year = (60 * minsinnorm_year)
+secinleap_year = (60 * minsinleap_year)
+query = input("Is it a leap year? ")
+if query == "No": 
+  print(secinnorm_year)
+elif query == "Yes":
+  print(secinleap_year)
