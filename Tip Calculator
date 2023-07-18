@@ -1,0 +1,11 @@
+print("Tip Calculator ")
+print()
+My_Bill = float(input("How much did you spend? "))
+print()
+Percentage = int(input("What percentage do you want to tip? "))
+print()
+number_of_people = int(input("How many people are in your group? "))
+print()
+Tip = (15 / 100) * My_Bill
+amount_due = (Tip / number_of_people) 
+print("You each owe", f"${amount_due}" )
