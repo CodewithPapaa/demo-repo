@@ -15,5 +15,5 @@ while True:
     break
 print("Thanks for playing!")
 
-print("You got it in like", counter , "attempt, lmaoooo")
+print("You got it in like", counter , "attempts, lmaoooo")
    
