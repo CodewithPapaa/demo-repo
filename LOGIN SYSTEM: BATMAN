@@ -1,0 +1,13 @@
+def login():
+  while True:
+    username = input("Please enter your username Bruce Wayne. ")
+    password = input("Please enter your password Sir. ")
+    if username == "GothamKnight" and password == "Batman10":
+      print("Hello Batman. ")
+      break
+    else:
+      print("Sorry. Try again: ") 
+      continue
+
+
+login()
