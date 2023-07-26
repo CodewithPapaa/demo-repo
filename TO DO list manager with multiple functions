@@ -1,0 +1,80 @@
+import os, time
+toDoList = []
+
+def printList():
+  print()
+  for items in toDoList:
+    print(items)
+  print()
+  
+while True:
+  menu = input("ToDo List Manager\nDo you want to view, add, edit, remove or delete the todo list?\n")
+  if menu=="view":
+    printList()
+  elif menu=="add":
+    item = input("What do you want to add?\n").title()
+    toDoList.append(item)
+  elif menu=="remove":
+    item = input("What do you want to remove?\n").title()
+    check = input("Are you sure you want to remove this?\n")
+    if check[0]=="y":
+      if item in toDoList:
+        toDoList.remove(item)
+  elif menu=="edit":
+    item = input("What do you want to edit?\n").title()
+    new = input("What do you want to change it to?\n").title()
+    for i in range(0,len(toDoList)):
+      if toDoList[i]==item:
+        toDoList[i]=new
+  elif menu=="delete":
+    toDoList = []
+  time.sleep(1)
+  os.system('clear')
+
+
+
+
+
+
+This Python code is a simple ToDo List Manager that allows users to view, add, edit, remove, and delete items from their ToDo list. 
+The code uses the os module for system-related operations (clearing the screen) and the time module for adding delays.
+Let's go through how the code works:
+
+import os, time: This line imports the os module for system-related operations (used for clearing the screen) and the time module for 
+adding delays (used for a slight pause before clearing the screen).
+
+toDoList = []: This line initializes an empty list called toDoList, which will store the user's ToDo items.
+
+def printList(): This function is defined to print the current ToDo list to the console.
+
+Inside the printList() function:
+
+It prints an empty line to create some separation before and after printing the list.
+It uses a for loop to iterate through each item in the toDoList and prints each item on a separate line.
+It prints another empty line after displaying the entire list.
+The code enters an infinite loop using while True, which will keep running until the user decides to exit the program.
+
+Inside the loop, the program displays the menu options to the user, prompting them to choose an action for the ToDo list: view, 
+add, edit, remove, or delete.
+
+The user's input is stored in the variable menu.
+
+The code uses if, elif, and else statements to perform different actions based on the user's choice:
+
+If the user inputs "view", the printList() function is called, and the current ToDo list is displayed.
+If the user inputs "add", they are prompted to input the item they want to add to the ToDo list. The item is then appended to the 
+toDoList. The title() method is used to capitalize the first letter of each word in the item.
+If the user inputs "remove", they are prompted to input the item they want to remove from the ToDo list. They are also asked for
+confirmation with the question "Are you sure you want to remove this?" If the user confirms by entering a word that starts
+with "y" (case-insensitive), the item is removed from the toDoList.
+If the user inputs "edit", they are prompted to input the item they want to edit and the new value for the item. The title() method 
+is used to capitalize the first letter of each word in both the item to edit and the new item value. If the item to edit is 
+found in the toDoList, it is replaced with the new value.
+If the user inputs "delete", the entire ToDo list is cleared by setting toDoList to an empty list.
+After each action, the program introduces a delay of 1 second using time.sleep(1) and then clears the 
+screen using os.system('clear').
+
+The program will keep running the ToDo List Manager in a loop, allowing the user to interactively manage their ToDo list until they 
+decide to exit the program manually.
+
+
