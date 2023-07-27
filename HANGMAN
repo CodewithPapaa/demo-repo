@@ -1,0 +1,89 @@
+import random, os, time
+listOfWords = ["apple", "orange", "grapes", "pear"]
+letterPicked = []
+lives = 6
+
+word = random.choice(listOfWords)
+
+while True:
+  time.sleep(1)
+  os.system("clear")
+  letter = input("Choose a letter: ").lower()
+  
+  if letter in letterPicked:
+    print("You've tried that before")
+    continue
+    
+  letterPicked.append(letter)
+  
+  if letter in word:
+    print("You found a letter")
+  else:
+    print("Nope, not in there")
+    lives -= 1
+  
+  allLetters = True
+  print()
+  for i in word:
+    if i in letterPicked:
+      print(i, end="")
+    else:
+      print("_", end="")
+      allLetters = False
+  print()
+  
+  if allLetters:
+    print(f"You won with {lives} left!")
+    break
+    
+  if lives<=0:
+    print(f"You ran out of lives! The answer was {word}")
+    break
+  else:
+    print(f"Only {lives} left")
+
+
+Certainly! This Python code is a simple word-guessing game. It allows the user to guess letters of a randomly chosen word from
+the listOfWords. The user is given a limited number of lives, and if they guess all the letters in the word correctly before 
+running out of lives, they win the game. Let's go through the code step-by-step:
+
+The code begins by importing the random, os, and time modules, which are used later in the program.
+
+A list called listOfWords is defined, containing some words that the user needs to guess.
+
+An empty list called letterPicked is created to store the letters that the user has already guessed.
+
+The variable lives is set to 6, representing the number of chances the user has to guess incorrectly before losing the game.
+
+The variable word is assigned a random word from the listOfWords using random.choice(listOfWords).
+
+The program enters an infinite loop using while True:. This loop continues until the user either wins the game or runs out of 
+lives and the loop is broken with a break statement.
+
+Within the loop, the program waits for 1 second using time.sleep(1) and clears the terminal screen using os.system("clear") to 
+make the game display cleaner and easier to follow.
+
+The user is prompted to input a letter as their guess, and the input is converted to lowercase using .lower().
+
+The program checks if the letter the user guessed is already in the letterPicked list. If it is, the user is informed that 
+they've tried that letter before, and the loop continues to the next iteration using continue.
+
+If the letter is not already picked, it is appended to the letterPicked list.
+
+The program checks if the guessed letter is in the randomly chosen word. If it is, the user is informed that they found a letter. 
+Otherwise, the user is informed that the letter is not in the word, and the number of remaining lives (lives) is decreased by 1.
+
+The program then checks if all the letters in the word have been guessed by the user. If all letters have been 
+guessed (allLetters is True), the user wins the game, and the loop is broken. The number of remaining lives is displayed
+when the user wins.
+
+If the user hasn't won yet, the program displays the current state of the word to guess. If a letter has been guessed, it is shown;
+otherwise, a "_" is shown in its place. The allLetters variable is used to check if there are any missing letters in the displayed word.
+
+If the user runs out of lives (lives is less than or equal to 0), the program informs the user that they've run out of lives and 
+displays the correct word. The loop is then broken.
+
+If the game is still ongoing, the program displays the number of remaining lives.
+
+The loop keeps repeating these steps until the user either wins or loses the game. The game is a simple text-based word-guessing
+game that allows the user to interactively guess letters and try to figure out the word.
