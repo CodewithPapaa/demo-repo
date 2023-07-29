@@ -1,0 +1,95 @@
+import random, os, time
+
+bingo = []
+
+def ran():
+  number = random.randint(1,90)
+  return number
+  
+def prettyPrint():
+  for row in bingo:
+    for item in row:
+      print(item, end="\t|\t")
+    print()
+    
+def createCard():
+  global bingo
+  numbers = []
+  for i in range(8):
+    num = ran()
+    while num in numbers:
+      num = ran()
+    numbers.append(ran())
+  
+  numbers.sort()
+  
+  bingo = [ [ numbers[0], numbers[1], numbers[2]],
+            [ numbers[3], "BG", numbers[4] ],
+            [ numbers [5], numbers[6], numbers[7]]
+          ]
+  
+createCard()
+while True:
+  prettyPrint()
+  num = int(input("Next Number: "))
+  for row in range(3):
+    for item in range(3):
+      if bingo[row][item] == num:
+        bingo[row][item] = "X"
+        
+  exes = 0
+  for row in bingo:
+    for item in row:
+      if item=="X":
+        exes+=1
+        
+  if exes == 8:
+    print("You have won")
+    break
+    
+  time.sleep(1)
+  os.system("clear")
+
+
+
+Sure! This Python code is a simple Bingo game simulation. It generates a Bingo card, displays it to the user, and then prompts 
+the user to input the next number called. If the number is present on the card, it marks it as "X." The game continues until
+the user has marked all the required numbers in a winning pattern.
+
+Let's go through the code step-by-step:
+
+The code starts by importing the random, os, and time modules, which are used later in the program.
+
+An empty list called bingo is initialized. This list will store the Bingo card as a 2D list (a list of lists).
+
+Three functions are defined:
+
+ran(): This function generates a random number between 1 and 90 (inclusive) using random.randint(1, 90) and returns the
+generated number.
+prettyPrint(): This function is responsible for printing the Bingo card in a nicely formatted way. It uses nested loops
+to iterate over the 2D bingo list and prints each element with a separator.
+createCard(): This function is responsible for generating a new Bingo card. It uses a list called numbers to store 8 unique 
+random numbers between 1 and 90 (inclusive). The function uses a while loop to ensure that each number generated is unique. 
+Then, the numbers list is sorted in ascending order, and the bingo list is created with specific numbers and placeholders "BG" to 
+represent the center square.
+The createCard() function is called to generate a new Bingo card.
+
+The code enters an infinite loop using while True:. Within this loop, the following actions occur:
+
+The prettyPrint() function is called to display the current Bingo card to the user.
+The user is prompted to input the next number called using num = int(input("Next Number: ")).
+The code then uses nested loops to check if the entered number (num) matches any number on the Bingo card. If a match is found, 
+it is marked as "X" in the bingo list.
+
+The code then counts the number of "X"s on the Bingo card using the variable exes. If there are 8 "X"s (all numbers marked on
+the Bingo card), the game informs the user that they have won and breaks out of the infinite loop using break.
+
+If the user has not won yet, the program waits for 1 second using time.sleep(1) and then clears the terminal screen using 
+os.system("clear") to update the display and prepare for the next input.
+
+The game continues until the user has marked all the required numbers in a winning pattern. When the user wins, the game stops and
+displays a "You have won" message.
+
+Please note that this is a basic simulation, and in a real Bingo game, there are various patterns for winning, such as
+a complete row, column, diagonal, or specific shape on the Bingo card. The code provided does not include checking for 
+specific winning patterns but simply marks the numbers as "X" when they are called.
