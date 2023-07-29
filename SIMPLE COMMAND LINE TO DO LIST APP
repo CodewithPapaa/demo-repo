@@ -1,0 +1,116 @@
+# | Name | Date | Priority
+import os, time
+todo = []
+
+def add():
+  time.sleep(1)
+  os.system("clear")
+  name = input("Name > ")
+  date = input("Due Date > ")
+  priority = input("Priority > ").capitalize()
+  row = [name, date, priority]
+  todo.append(row)
+  print("Added")
+
+def view():
+  time.sleep(1)
+  os.system("clear")
+  options = input("1: All\n2: By Priority\n> ")
+  if options=="1":
+    for row in todo:
+      for item in row:
+        print(item, end=" | ")
+      print()
+    print()
+  else:
+    priority = input("What priority? > ").capitalize()
+    for row in todo:
+      if priority in row:
+        for item in row:
+          print(item, end=" | ")
+        print()
+    print()
+  time.sleep(1)  
+
+def edit():
+  time.sleep(1)
+  os.system("clear")
+  find = input("Name of todo to edit > ")
+  found = False
+  for row in todo:
+    if find in row:
+      found = True
+  if not found:
+    print("Couldn't find that")
+    return
+  for row in todo:
+    if find in row:
+      todo.remove(row)
+  name = input("Name > ")
+  date = input("Due Date > ")
+  priority = input("Priority > ").capitalize()
+  row = [name, date, priority]
+  todo.append(row)
+  print("Added")
+    
+def remove():
+    time.sleep(1)
+    os.system("clear")
+    find = input("Name of todo to remove > ")
+    for row in todo:
+      if find in row:
+        todo.remove(row)
+ 
+
+
+while True:
+  menu = input("1: Add\n2: View\n3: Edit\n4:Remove\n> ")
+  if menu == "1":
+    add()
+  elif menu == "2":
+    view()
+  elif menu =="3":
+    edit()
+  else:
+    remove()
+
+time.sleep(1)
+os.system("clear")
+
+
+
+Certainly! This Python code is a simple command-line todo list application. The user can perform various operations, such as
+adding, viewing, editing, and removing tasks from the todo list.
+
+Let's go through the code step-by-step:
+
+The code starts by importing the os and time modules. The os module is used to interact with the operating system, and 
+the time module is used for adding delays in the program for better readability.
+
+An empty list called todo is initialized. This list will store the todo list items as rows (each row being a list with three 
+elements: Name, Date, and Priority).
+
+
+Four functions are defined:
+
+add(): This function allows the user to add a new todo list item. It prompts the user to input the Name, Due Date, and Priority 
+of the task and appends a new row (list) to the todo list.
+view(): This function allows the user to view the todo list items. The user can choose to view all items or view items by a
+specific priority. It iterates through the todo list and prints the tasks in a formatted manner based
+on the user's choice.
+edit(): This function allows the user to edit an existing todo list item. The user is prompted to input the Name of the task to edit. 
+If the task is found, it is removed from the todo list, and the user can then input new Name, Due Date, and Priority for the task, 
+which is added as a new row to the todo list.
+remove(): This function allows the user to remove an existing todo list item. The user is prompted to input the Name of the task to
+remove. If the task is found, it is removed from the todo list.
+The code enters an infinite loop using while True:. Within this loop, the following actions occur:
+
+The user is presented with a menu containing four options: Add, View, Edit, and Remove. The user can input the number corresponding 
+to their desired operation.
+Based on the user's input, the corresponding function (add(), view(), edit(), or remove()) is called to perform the desired operation.
+After performing the operation, the terminal screen is cleared using os.system("clear") to prepare for the next user interaction.
+There is a time.sleep(1) statement after each operation to introduce a one-second delay, allowing the user to see the results before
+the next menu is presented.
+
+Please note that this is a basic todo list application with limited error handling. For a real-world application, you might consider 
+adding more robust error handling and data storage to persist the todo list beyond the runtime of the program.
