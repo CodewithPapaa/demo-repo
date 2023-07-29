@@ -1,0 +1,51 @@
+import os, time
+
+mokedex = {}
+
+def prettyPrint():
+  print(f"Name\tType\tHP\tMP")
+  for key, value in mokedex.items():
+    print(f"""{key:^12}|{value["type"]:^10}|{value["hp"]:^6}|{value["mp"]:^6}""")
+    
+while True:
+  print("Add your Beast!")
+  name = input("Name > ").title()
+  type = input("Type > ").title()
+  hp = int(input("HP > "))
+  mp = int(input("MP > "))
+  mokedex[name] = { "type": type, "hp": hp, "mp": mp}
+  print("----------")
+  print()
+  prettyPrint()
+
+
+
+Certainly! This Python code is a simple MokéBeast (Beast) data collection application. It allows the user to add MokéBeast 
+information, such as Name, Type, HP (Hit Points), and MP (Mana Points), and then displays the collected MokéBeast data in a
+formatted table using the prettyPrint() function.
+
+Let's go through the code step-by-step:
+
+The code starts by importing the os and time modules. The os module is used to interact with the operating system, and the time
+module is used for adding delays in the program for better readability.
+
+An empty dictionary called mokedex is initialized. This dictionary will store the MokéBeast information. The keys of the dictionary 
+will represent the MokéBeast Names, and the values will be dictionaries containing Type, HP, and MP for each MokéBeast.
+
+One function is defined:
+
+prettyPrint(): This function prints the MokéBeast data stored in the mokedex dictionary in a formatted table. It uses the items() 
+method to iterate over the key-value pairs of the mokedex dictionary and then prints the MokéBeast information in a table format.
+The code enters an infinite loop using while True:. Within this loop, the following actions occur:
+
+The user is prompted to add a new MokéBeast by inputting its Name, Type, HP, and MP.
+The user's input is stored in variables name, type, hp, and mp.
+The MokéBeast information is added to the mokedex dictionary. The name is used as the key, and its corresponding value is a dictionary
+containing the type, hp, and mp information.
+The terminal screen is cleared using os.system("clear").
+The prettyPrint() function is called to display the MokéBeast data in a formatted table.
+The loop continues, allowing the user to add more MokéBeast information as desired. The process repeats indefinitely, as there is no 
+exit condition provided in the code.
+
+Note: The code does not include error handling for invalid input. In a real-world application, you may want to add error handling to
+handle cases where the user inputs incorrect data types or other unexpected input.
