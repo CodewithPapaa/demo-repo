@@ -1,0 +1,57 @@
+f = open("high.score", "r")
+scores = f.read().split("\n")
+f.close()
+
+highscore = 0
+name = None
+
+for rows in scores:
+  data = rows.split()
+  if data != []:
+    if int(data[1]) > highscore:
+      highscore = int(data[1])
+      name = data[0]
+print("The winner is", name, "with", highscore)
+
+
+
+
+In this Python code, the program reads the contents of the file "high.score," which contains high scores and players' names.
+It then processes the 
+data to find and display the player with the highest score.
+
+Let's go through the code step-by-step:
+
+The code starts by opening the file "high.score" in "read" mode using f = open("high.score", "r"). The file is opened for reading, 
+allowing us to access its contents without modifying it.
+
+The f.read() function is used to read the entire content of the file as a single string. The variable scores stores this string.
+
+The split("\n") method is called on the scores string to split it into a list of individual lines. The \n character
+represents a newline, so each line of the file becomes a separate element in the scores list.
+
+The file is closed using f.close() as it is no longer needed for reading.
+
+Two variables, highscore and name, are initialized. The highscore variable will keep track of the highest score encountered, and the 
+name variable will store the name of the player with the highest score.
+
+The code enters a for loop to iterate through each row in the scores list, which represents each line of the file.
+
+Inside the loop, the current row is split into individual data elements using rows.split(). The result is stored in the data variable.
+
+The code checks if the data list is not empty (data != []). An empty list may be encountered when there is an empty line at the end of 
+the file. We want to ignore such lines.
+
+If the data list is not empty, the code proceeds to compare the score (the second element in the data list) with the current 
+highest score (highscore).
+
+If the score in the current line is greater than the current highest score, the highscore variable is updated to the new high score, and 
+the player's name (the first element in the data list) is stored in the name variable.
+
+The loop continues, and the next line of the file is processed in the same way.
+
+After processing all lines of the file, the program prints the result using print("The winner is", name, "with", highscore) to display 
+the name of the player with the highest score and their corresponding high score.
+
+In summary, the code reads and processes the high scores from the file "high.score" to determine and display the player with the 
+highest score in the high score table.
