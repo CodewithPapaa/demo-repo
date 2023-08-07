@@ -1,0 +1,43 @@
+import csv
+
+total = 0.0
+
+with open("Day54Totals.csv") as file:
+  reader = csv.DictReader(file)
+  for row in reader:
+    total += float(row["Quantity"]) * float(row["Cost"])
+
+print(f"Total: ${round(total, 2)}")
+
+
+
+
+This Python script reads data from a CSV (Comma-Separated Values) file named "Day54Totals.csv" and calculates the total cost by 
+multiplying the "Quantity" and "Cost" values for each row in the file. Finally, it prints the calculated total in a formatted manner.
+
+Here's a breakdown of the code:
+
+import csv: This line imports the Python CSV module, which provides functionality for reading and writing CSV files.
+
+total = 0.0: This initializes a variable total to keep track of the cumulative total cost.
+
+with open("Day54Totals.csv") as file:: This opens the CSV file named "Day54Totals.csv" using a with statement, which ensures that 
+the file is properly closed after it's used. The file is opened in text mode by default.
+
+reader = csv.DictReader(file): This creates a CSV reader object named reader using the DictReader class from the CSV module.
+The DictReader reads each row in the CSV file as a dictionary where the keys are the column headers and the values are the
+corresponding values in each row.
+
+for row in reader:: This starts a loop that iterates through each row (dictionary) in the CSV file.
+
+total += float(row["Quantity"]) * float(row["Cost"]): This line calculates the total cost for each row. It extracts the values 
+from the "Quantity" and "Cost" columns of the current row, converts them to floats using float(), and then multiplies them together. 
+The result is added to the total variable.
+
+print(f"Total: ${round(total, 2)}"): After processing all rows, this line prints the calculated total cost. The f-string is used
+to format the output, where the round() function is used to round the total to two decimal places, and the result is displayed with
+a dollar sign.
+
+In summary, this script reads data from a CSV file, performs calculations on the data, and then displays the total cost in a 
+formatted way. Make sure you have a CSV file named "Day54Totals.csv" with appropriate column headers ("Quantity" and "Cost") 
+for this code to work correctly.
