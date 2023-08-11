@@ -1,0 +1,60 @@
+import datetime
+
+today = datetime.date.today()
+
+print("EVENT COUNTDOWN")
+day = int(input("Day: "))
+month = int(input("Month: "))
+year = int(input("Year: "))
+event = datetime.date(year, month, day)
+
+difference = event - today
+difference = difference.days
+
+if difference>0:
+  print(f"{difference} days to go")
+elif difference<0:
+  print(f"😭😭😭😭😭😭😭 You missed it by {difference} days!")
+  
+else:
+  print("🥳🥳🥳🥳🥳🥳🥳 Today!")
+
+
+
+
+This Python code is a simple program that calculates the countdown to a user-specified event date and provides different messages 
+based on the relationship between the current date and the event date.
+
+Here's a breakdown of how the code works:
+
+import datetime: This line imports the datetime module, which provides classes for working with dates and times in Python.
+
+today = datetime.date.today(): This line gets the current date using the today() method of the datetime.date class and stores it in
+the today variable.
+
+print("EVENT COUNTDOWN"): This line prints a heading for the event countdown.
+
+day = int(input("Day: ")), month = int(input("Month: ")), year = int(input("Year: ")): These lines prompt the user to enter
+the day, month, and year of the event and store the input values as integers in the day, month, and year variables, respectively.
+
+event = datetime.date(year, month, day): This line creates a datetime.date object representing the event date using the values
+provided by the user.
+
+difference = event - today: This line calculates the difference between the event date and the current date, resulting 
+in a datetime.timedelta object representing the time difference between the two dates.
+
+difference = difference.days: This line extracts the number of days from the datetime.timedelta object and stores it in the
+difference variable.
+
+The following conditional statements check the value of difference to determine the relationship between the current date and 
+the event date:
+
+if difference > 0:: If the difference is positive, it means the event is in the future. The program prints a message indicating 
+the number of days left until the event.
+elif difference < 0:: If the difference is negative, it means the event has already passed. The program prints a message
+indicating how many days ago the event occurred.
+else:: If the difference is zero, it means the event is today. The program prints a celebratory message.
+The program then prints the appropriate message based on the calculated difference.
+
+In summary, this code takes user input for an event date, calculates the time difference between the event date and the 
+current date, and displays a message based on whether the event is in the past, future, or today.
