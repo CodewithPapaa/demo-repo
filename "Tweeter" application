@@ -1,0 +1,71 @@
+from replit import db
+import datetime, os, time
+
+def addTweet():
+  tweet = input("🐥 > ")
+  timestamp = datetime.datetime.now()
+  key = f"mes{timestamp}"
+  db[key] = tweet
+  time.sleep(1)
+  os.system("clear")
+  
+def viewTweet():
+  matches = db.prefix("mes")
+  matches = matches[::-1]
+  counter = 0
+  for i in matches:
+    print(db[i])
+    print()
+    time.sleep(0.3)
+    counter+=1
+    if(counter%10==0):
+      carryOn = input("Next 10?: ")
+      if(carryOn.lower()=="no"):
+        break
+  time.sleep(1)
+  os.system("clear")
+  
+while True:
+  print("Tweeter")
+  menu = input("1: Add Tweet\n2: View Tweets\n> ")
+  if menu == "1":
+    addTweet()
+  else:
+    viewTweet()
+
+
+
+
+This Python script creates a basic command-line "Tweeter" application that allows users to add and view tweets. 
+Here's a step-by-step explanation of how the code works:
+
+from replit import db: Imports the db module from the replit library. This library provides access to a simple key-value
+database for storing data.
+
+import datetime, os, time: Imports the datetime, os, and time modules for handling date and time, interacting with 
+the operating system, and managing time delays.
+
+def addTweet():: Defines a function named addTweet() for adding tweets. Inside this function:
+
+tweet = input("🐥 > "): Prompts the user to input a tweet message.
+timestamp = datetime.datetime.now(): Captures the current date and time using the datetime module.
+key = f"mes{timestamp}": Creates a key for the tweet by combining the string "mes" with the timestamp. This key is used
+to store the tweet in the database.
+db[key] = tweet: Stores the tweet message in the Replit database using the constructed key.
+time.sleep(1): Pauses the program for 1 second to provide a brief delay.
+os.system("clear"): Clears the terminal screen using the os.system() function.
+def viewTweet():: Defines a function named viewTweet() for viewing tweets. Inside this function:
+
+matches = db.prefix("mes"): Retrieves keys from the database that start with "mes," assumed to be tweet keys.
+matches = matches[::-1]: Reverses the list of keys to display the most recent tweets first.
+A loop iterates through the tweet keys in reverse order, printing each tweet.
+After every 10 tweets, the program asks if the user wants to view the next 10 tweets. If the user inputs "no," the loop breaks.
+The terminal screen is cleared after displaying the tweets.
+The main part of the program is a while True: loop, which provides a continuous menu to the user:
+
+If the user selects "1," the addTweet() function is called to add a tweet.
+If the user selects any other option, the viewTweet() function is called to view tweets.
+The program creates a simple interactive interface for adding and viewing tweets, utilizing the Replit database
+for data storage. The os.system("clear") commands are used to clear the terminal screen, providing a cleaner and 
+more user-friendly interface. As long as the while True: loop runs, the program will keep displaying the menu 
+options and responding to user inputs.
