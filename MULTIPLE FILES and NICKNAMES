@@ -1,0 +1,23 @@
+coolSubroutines.py
+
+def newPrint(color):
+  if color=="red":
+    print("\033[31m", sep="", end="")
+  elif color=="green":
+    print("\033[32m", sep="", end="")
+  elif color=="blue":
+    print("\033[34m", sep="", end="")
+  else:
+    print("\033[0m", sep="", end="")
+
+
+
+#hence we can import the subroutines here
+
+import coolSubroutines as cs
+
+cs.newPrint("red")
+print("This should be red")
+
+cs.newPrint("blue")
+print("this should be blue")
