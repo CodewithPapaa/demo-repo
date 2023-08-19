@@ -1,0 +1,81 @@
+https://day74100days--codewithpapaa.repl.co/
+
+CSS:
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #121212;
+}
+
+h1, h2 {
+  font-family: Georgia;
+  font-size: 24px;
+  color: #110f66;
+  background-color: #fbfb04;
+  text-align:center;
+}
+
+h2{
+  font-size: 12px;
+}
+
+p {
+  font-family: monospace;
+  font-size: 10px;
+  color: #0808fd;  
+  text-align:center;
+}
+
+img{
+  width: 250px;
+  height: 300px;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
+.blurb {
+font-style: italic;
+  font-weight: bold;
+}
+
+p {
+  font-family: monospace;
+  font-size: 10px;
+  color: #0808fd;  
+  text-align:center;
+}
+
+HTML:
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <h1>Papaa's Portfolio</h1>
+  <p class="blurb">This man will change the World</p>
+  <h2>Welcome to my Portfolio!</h2>
+  <p>Below is one of my many projects</p>
+  <img src="images/screen1.png" width="200px">
+  <p><a href = "https://https://replit.com/@CodewithPapaa/Day74100Days">The link to my project.</a></p>
+  <p>
+    To anyone listening,
+    Step by step,
+    You're going to make it.
+  </p>
+
+  
+  <script src="script.js"></script>
+
+  <script src="https://replit.com/public/js/replit-badge.js" theme="blue" defer></script> 
+</body>
+
+</html>
