@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>CodewithPapaa's Portfolio</title>
+  </head>
+  <body>
+  <h1>Papaa's Portfolio</h1>
+  <h2>Welcome to my Portfolio!</h2>
+  <p>There's definitely much better days ahead.The expert at anything was once a beginner. What a ride it has been so far in my journey as a software developer.</p>
+  <h2>Gallery </h2>
+  <p>Below is one of my many projects</p>
+  <img src="images/screen1.png" width = 80%>
+  <p><a href = "https://https://replit.com/@CodewithPapaa/Day74100Days">The link to my project.</a></p>
+  <ul>
+    <li>To anyone listening</li>
+    <li>Step by step</li>
+    <li>You're going to make it.</li>
+  </ul>
+  
+  
+</body>
+  </html>
+
+
+
+
+
+
+the website link: https://day73100days--codewithpapaa.repl.co/
