@@ -12,7 +12,7 @@ HTML:
 </head>
 
 <body>
-  <img src="davidmorgan.jpg" width="30px"
+  <img src="davidmorgan.jpg" width="50px">
   <h1>David Morgan</h1>
    <p class="about">The baldest nerd you've ever met!</p>
   <h3>Socials</h3>
