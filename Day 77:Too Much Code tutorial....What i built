@@ -1,0 +1,28 @@
+from flask import Flask, redirect
+
+app = Flask(__name__, static_url_path="/static")
+
+@app.route('/77')
+def seventyseven():
+  return redirect("https://replit.com/@CodewithPapaa/Day77100Days#main.py")
+
+@app.route('/')
+def seventyfour():
+  myName = "Papaa"
+  title = "Papaa's Portfolio"
+  text = "There's definitely much better days ahead.The expert at anything was once a beginner. What a ride it has been so far in my journey as a software developer."
+  image = "screen2.png"
+  link = "https://day74100days--codewithpapaa.repl.co/"
+  page = ""
+  f = open("template/portfolio.html", "r")
+  page = f.read()
+  f.close
+  page = page.replace("{name}", myName)
+  page = page.replace("{title}", title)
+  page = page.replace("{text}", text)
+  page = page.replace("{image}", image)
+  page = page.replace("{link}", link)
+  return page
+
+
+app.run(host='0.0.0.0', port=81)
