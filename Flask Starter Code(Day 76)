@@ -1,0 +1,21 @@
+from flask import Flask       
+
+                                    
+app = Flask(__name__)  
+
+                                      
+@app.route('/')       
+def index():    
+  return'Hello from Flask!' 
+
+            
+app.run(host='0.0.0.0', port=81)           
+
+
+
+ # Imports the flask library
+ # Starts the Flask application. The 'app' variable is very important. We'll be using that later.
+ # Tells the code what to do if we've gone to our web address with just a / after the URL
+ # Tells the code which webpage to show. This subroutine will display the 'Hello from Flask' page
+return 'Hello from Flask!'
+ # This line should ALWAYS come last. It's the line that turns on the Flask server.
