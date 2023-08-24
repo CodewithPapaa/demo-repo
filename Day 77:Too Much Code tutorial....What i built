@@ -26,3 +26,17 @@ def seventyfour():
 
 
 app.run(host='0.0.0.0', port=81)
+
+
+HTML code(blog.html):
+
+<html>
+  <head>
+    <title>{title}</title>
+  </head>
+<body>
+  <h1>{title}</h1>
+  <h2>{date}</h2>
+  <p>{text}</p>
+</body>
+</html>
