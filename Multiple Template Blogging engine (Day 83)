@@ -1,0 +1,166 @@
+https://day83100days-.codewithpapaa.repl.co/hello------ blue version of hello
+https://day83100days-.codewithpapaa.repl.co/hello?template=fancy----green version of hello
+https://day83100days-.codewithpapaa.repl.co/bye?template=fancy-----green version of bye
+https://day83100days-.codewithpapaa.repl.co/bye?template=default-----blue version of bye
+
+PYTHON:
+from flask import Flask, redirect, request
+
+app = Flask(__name__, static_url_path="/static")
+
+
+@app.route('/')
+def index():
+  page = ""
+  return page
+
+@app.route("/blog/hello")
+def hr():
+  return redirect("/hello")
+
+@app.route("/blog/bye")
+def br():
+  return redirect("/bye")
+
+@app.route('/hello', methods = ["GET"])
+def hello():
+  data = request.args
+  template = "default"
+  if data != {}:
+    template = data["template"]
+  title = "Hello World"
+  date = "October 25th"
+  text = "Here is my first blog entry."
+  page = ""
+  f = open("template/blog.html", "r")
+  page = f.read()
+  f.close()
+  page = page.replace("{title}", title)
+  page = page.replace("{date}", date)
+  page = page.replace("{text}", text)
+  page = page.replace("{template}", template)
+  
+  return page
+
+@app.route('/bye' , methods = ["GET"])
+def bye():
+  data = request.args
+  template = "default"
+  if data != {}:
+    template = data["template"]
+  title = "Bye World"
+  date = "October 25th"
+  text = "Here is my last blog entry."
+  page = ""
+  f = open("template/blog.html", "r")
+  page = f.read()
+  f.close()
+  page = page.replace("{title}", title)
+  page = page.replace("{date}", date)
+  page = page.replace("{text}", text)
+  page = page.replace("{template}", template)
+  
+  return page
+app.run(host='0.0.0.0', port=81)
+
+
+blog.html(HTML CODE)
+
+<html>
+  <head>
+    <title>{title}</title>
+    <link rel="stylesheet" href="static/{template}.css">
+  </head>
+<body>
+  <h1>{title}</h1>
+  <h2>{date}</h2>
+  <p>{text}</p>
+</body>
+</html>
+
+
+default.css(CSS code):
+
+html {
+  background-color: #6feef7;
+  color: #00429d
+}
+
+
+fancy.css(CSS code):
+
+html {
+  background-color: #8cfb8c;
+  color: #00a210
+}
+
+
+EXPLANATION:
+
+This code is a Flask web application that serves a simple blogging platform. It uses different routes to handle requests for 
+creating and viewing blog entries. Here's a step-by-step explanation of the code:
+
+
+Importing Libraries and Setting Static URL Path:
+
+from flask import Flask, redirect, request
+
+app = Flask(__name__, static_url_path="/static")
+
+The code imports the Flask class and other necessary modules and initializes the Flask application named app. 
+The static_url_path parameter is set to /static, which is the URL path where static files (like stylesheets, images, etc.)
+will be served from.
+
+
+Defining the / Route:
+
+@app.route('/')
+def index():
+    page = ""
+    return page
+
+This route handles requests to the root URL path (/). Currently, it returns an empty page, effectively not displaying any content.
+
+
+Redirect Routes:
+
+@app.route("/blog/hello")
+def hr():
+    return redirect("/hello")
+
+@app.route("/blog/bye")
+def br():
+    return redirect("/bye")
+
+These routes are used for redirection. When a user visits /blog/hello, they are redirected to /hello. Similarly, 
+visiting /blog/bye redirects the user to /bye.
+
+
+Blog Entry Routes:
+
+@app.route('/hello', methods=["GET"])
+def hello():
+    # Code for generating the "Hello World" blog entry
+    return page
+
+@app.route('/bye', methods=["GET"])
+def bye():
+    # Code for generating the "Bye World" blog entry
+    return page
+
+These routes handle requests to /hello and /bye. They generate blog entries with placeholders for the title, date, and text.
+The content of the blog entries is read from a template file (template/blog.html). The template placeholders are replaced with
+the appropriate values, including any specified template provided as a query parameter.
+
+
+Running the App:
+
+app.run(host='0.0.0.0', port=81)
+This line runs the Flask app on all available network interfaces (0.0.0.0) and port 81.
+
+It seems like there's a piece of code missing that reads the template file and replaces the placeholders.
+The template file is expected to have placeholders like {title}, {date}, {text}, and {template} which will be
+replaced with actual content.
+
+Overall, this code provides a basic example of a Flask web application for serving a simple blogging platform.
+It demonstrates the usage of routes, redirection, and dynamic content generation using templates.
