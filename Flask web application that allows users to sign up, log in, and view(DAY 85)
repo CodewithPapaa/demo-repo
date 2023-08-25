@@ -1,0 +1,128 @@
+LINK:
+https://day85100days.codewithpapaa.repl.co/welcome
+
+NB: HTML codes for Login and Sign Up are in Day 84
+
+
+import os
+from flask import Flask, request, redirect, session
+from replit import db
+                                 
+app = Flask(__name__)  
+app.secret_key = os.environ['sessionKey']
+
+@app.route("/signup", methods=["POST"])
+def createUser():
+  if  session.get("loggedIn"):
+    return redirect("/welcome")
+  keys = db.keys()
+  form = request.form
+  if form["username"] not in keys:
+    db[form["username"]] = {"name": form["name"], "password": form["password"]}
+    return redirect("/login")
+  else:
+    return redirect("/signup")
+
+@app.route("/login", methods=["POST"])
+def doLogin():
+  if  session.get("loggedIn"):
+    return redirect("/welcome")
+  keys = db.keys()
+  form = request.form
+  if form["username"] not in keys:
+    return redirect("/login")
+  else:
+    if form["password"]==db[form["username"]]["password"]:
+      session["loggedIn"] = form["username"]
+      return redirect("/welcome")
+    else:
+      return redirect("/login")
+
+
+@app.route("/welcome")
+def welcome():
+  page = f"""<h1>Hi there {db[session["loggedIn"]]["name"]}</h1>
+  <button type="button" onClick="location.href='/logout'">Log out</button>
+  """
+  return page
+
+@app.route("/logout")
+def logout():
+  session.clear()
+  return redirect("/")
+
+@app.route("/login")
+def login():
+  page = ""
+  f = open("login.html", "r")
+  page = f.read()
+  f.close()
+  return page
+
+
+@app.route("/signup")
+def signup():
+  if  session.get("loggedIn"):
+    return redirect("/welcome")
+  page = ""
+  f = open("signup.html", "r")
+  page = f.read()
+  f.close()
+  return page
+
+                                 
+@app.route('/')       
+def index():
+  if  session.get("loggedIn"):
+    return redirect("/welcome")
+  page = """<p><a href="/signup">Sign up</a></p>
+  <p><a href="/login">Log in</a></p>"""
+  return page
+
+            
+app.run(host='0.0.0.0', port=81)
+
+
+EXPLANATION:
+
+The code you've provided is a Flask web application that allows users to sign up, log in, and view a welcome page
+once logged in. It uses the replit database to store user information and session to manage user sessions.
+Let's break down the main parts of the code:
+
+Import Statements:
+
+os: Import the os module for environment variables.
+Flask: Import the Flask class from the flask library.
+request: Import the request object from the flask library for handling HTTP requests.
+redirect: Import the redirect function from the flask library to redirect users to different routes.
+session: Import the session object from the flask library to manage user sessions.
+db: Import the db object from the replit library for working with the Replit database.
+App Configuration:
+
+Create an instance of the Flask class and assign it to the app variable.
+Set a secret key for the app's session management using an environment variable.
+Route Definitions:
+
+/signup (POST): Handles user sign-up. If the user is already logged in, they are redirected to the welcome page. 
+It checks if the provided username already exists in the database. If not, it stores the user's information in the
+database and redirects to the login page. If the username already exists, the user is redirected to the signup page.
+/login (POST): Handles user login. If the user is already logged in, they are redirected to the welcome page. 
+It checks if the provided username exists in the database. If it does, it compares the provided password with 
+the stored password. If the passwords match, the user's username is stored in the session and they are redirected
+to the welcome page. If the passwords do not match or the username is not found, the user is redirected to the login page.
+/welcome: Displays a welcome page for logged-in users. It retrieves the user's name from the database using their 
+session username and displays it along with a "Log out" button.
+/logout: Clears the user's session and redirects them to the home page.
+/login: Displays the login page.
+/signup: Displays the sign-up page.
+/ (root): Displays links to the sign-up and login pages if the user is not logged in. If the user is logged in, they are 
+redirected to the welcome page.
+App Execution:
+
+The app.run method starts the Flask development server with the specified host and port.
+The application allows users to sign up, log in, and view a welcome page once logged in. It uses the Replit database to 
+store user information and the Flask session object to manage user sessions. Users can navigate between sign-up, login,
+and welcome pages based on their session status.
+
+Remember to have the corresponding HTML templates (login.html and signup.html) for the login and sign-up pages to properly
+render the user interface.
