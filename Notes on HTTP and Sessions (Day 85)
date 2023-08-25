@@ -56,3 +56,11 @@ def reset():
   return redirect("/")
   
 app.run(host='0.0.0.0', port=81)
+
+
+form.html(HTML CODE):
+<form method="post" action="setName">
+  <p>Name: <input type="text" name="name"></p>
+  <button type="submit">Submit</button>
+  <button type="button" onclick="location.href='/reset'">Reset</button>
+</form>
