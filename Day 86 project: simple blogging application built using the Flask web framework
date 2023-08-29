@@ -6,7 +6,7 @@ from flask import Flask, redirect, session, request
 from replit import db
 import os
 
-app = Flask(__name__,static_url_path="/static")
+app = Flask(__name__, static_url_path="/static")
 app.secret_key = os.environ['secretKey']
 
 def getBlogs():
@@ -17,7 +17,7 @@ def getBlogs():
   keys = db.keys()
   keys = list(keys)
   content = ""
-  for key in keys:
+  for key in reversed(keys):
     thisEntry = entry
     if key != "user":
       thisEntry = thisEntry.replace("{title}", db[key]["title"])
@@ -29,7 +29,8 @@ def getBlogs():
 
 @app.route('/')
 def index():
-  if session.get("user"):
+  userid = request.headers['X-Replit-User-Name']
+  if userid == "CodewithPapaa":
     return redirect("/edit")
   page=""
   f =open("blog.html", "r")
@@ -51,7 +52,8 @@ def loginForm():
 
 @app.route('/login', methods=["POST"])
 def login():
-  if session.get("user"):
+  userid = request.headers['X-Replit-User-Name']
+  if userid == "CodewithPapaa":
     return redirect("/edit")
   form = request.form
   if form["username"] == db["user"]["username"] and form["password"] == db["user"]["password"]:
@@ -62,7 +64,8 @@ def login():
 
 @app.route("/edit")
 def edit():
-  if not session.get("user"):
+  userid = request.headers['X-Replit-User-Name']
+  if userid != "CodewithPapaa":
     return redirect("/")
   page=""
   f =open("edit.html", "r")
@@ -73,6 +76,9 @@ def edit():
 
 @app.route('/add', methods=["POST"])
 def add():
+  userid = request.headers['X-Replit-User-Name']
+  if userid != "CodewithPapaa":
+    return redirect("/")
   form = request.form
   entry = {"title": form["title"], "date" : form["date"], "body": form["body"]}
   db[form["date"]] = entry
