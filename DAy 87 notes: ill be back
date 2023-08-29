@@ -92,3 +92,21 @@ def logout():
 
 
 app.run(host='0.0.0.0', port=81)
+
+
+
+blog.html:
+
+<html>
+  <head>
+    <title>Papaa's Blog</title>
+    <link rel="stylesheet" href="/static/style.css"
+    </head>
+  <body>
+    <h1>Papaa's Blog</h1>
+    <!--<button type="button" onClick="location.href='/loginForm'">Log in</button>-->
+    {content}
+  
+  
+  </body>
+</html>
