@@ -157,9 +157,108 @@ login.html :
 </html>
 
 
-enty.html :
+entry.html :
 
 <h2>{title}</h2>
 <h3>{date}</h3>
 <p>{body}</p>
 <hr>
+
+
+Explanation:
+
+Import Statements:
+
+from flask import Flask, redirect, session, request
+from replit import db
+import os
+
+This section imports necessary modules for the application. Flask is used for creating the web application, redirect is used for 
+redirecting to different routes, session is used for managing user sessions, request is used for accessing request data, and db is
+imported from replit for interacting with the database.
+
+
+App Initialization:
+
+app = Flask(__name__, static_url_path="/static")
+app.secret_key = os.environ['secretKey']
+
+The Flask app is initialized with a static_url_path for serving static files (like CSS or JavaScript). 
+The secret_key is set from an environment variable for session security.
+
+
+getBlogs Function:
+This function retrieves blog entries from the database and generates HTML content for displaying them.
+
+
+index Route:
+
+@app.route('/')
+def index():
+   # ... (omitting the rest of the code for brevity)
+
+This route handles the main page of the application. It redirects users to the /edit route if they are already logged in,
+otherwise it renders the main blog page.
+
+
+loginForm Route:
+
+@app.route('/loginForm')
+def loginForm():
+   # ... (omitting the rest of the code for brevity)
+
+This route renders the login form page, allowing users to enter their credentials.
+
+
+login Route:
+
+@app.route('/login', methods=["POST"])
+def login():
+   # ... (omitting the rest of the code for brevity)
+
+This route handles the user login process. It compares the submitted username and password with the stored user credentials.
+If they match, the user is redirected to the /edit page; otherwise, they are redirected back to the login form.
+
+
+edit Route:
+
+@app.route("/edit")
+def edit():
+   # ... (omitting the rest of the code for brevity)
+
+This route renders the editing interface for users who are logged in. It displays existing blog entries and allows users to add
+new entries.
+
+
+add Route:
+
+@app.route('/add', methods=["POST"])
+def add():
+   # ... (omitting the rest of the code for brevity)
+
+This route handles adding new blog entries. It retrieves form data and adds the entry to the database before redirecting 
+to the /edit page.
+
+
+logout Route:
+
+@app.route("/logout")
+def logout():
+   # ... (omitting the rest of the code for brevity)
+
+This route clears the user's session when they log out and redirects them to the main page.
+
+
+Running the App:
+
+app.run(host='0.0.0.0', port=81)
+This line starts the Flask development server to run the application, allowing it to be accessed from other devices on the network.
+
+
+This script defines routes and functions to create a simple blogging application with login functionality, allowing users to add and 
+edit blog posts. It uses Flask for the web framework and interacts with the replit database for storing blog post information.
+
+
+
+
+
