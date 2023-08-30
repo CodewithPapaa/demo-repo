@@ -1,0 +1,64 @@
+import requests, json 
+
+for i in range(10):
+  result = requests.get("https://randomuser.me/api/") 
+if result.status_code == 200:
+  user = result.json() 
+
+for person in user["results"]:
+  filename = f"""{person["name"]["first"].lower()}{person["name"]["last"].lower()}.jpg"""
+  #print(filename)
+  picture = requests.get(person["picture"]["medium"])
+  f = open(filename, "wb")
+  f.write(picture.content)
+  f.close()
+  print(f"Saved {filename}")
+
+
+Explanation:
+
+Let's break down the code step by step:
+
+Importing Libraries:
+
+import requests, json
+Here, you're importing the requests library to make HTTP requests and the json library to work with JSON data.
+
+Loop to Fetch User Data:
+
+for i in range(10):
+    result = requests.get("https://randomuser.me/api/") 
+    if result.status_code == 200:
+        user = result.json() 
+
+This loop runs 10 times. In each iteration, it sends a GET request to the "Random User Generator" API 
+endpoint (https://randomuser.me/api/) to fetch random user data in JSON format. If the response status code 
+is 200 (OK), it converts the JSON response into a Python dictionary called user.
+
+However, there is a minor issue in your code. The fetching of user data should be within the loop to actually
+get new random user data in each iteration. As it stands, you're overwriting the user dictionary with the same 
+data in each iteration, which isn't what you likely intended.
+
+Loop Through User Data and Save Images:
+
+for person in user["results"]:
+    filename = f"""{person["name"]["first"].lower()}{person["name"]["last"].lower()}.jpg"""
+    picture = requests.get(person["picture"]["medium"])
+    f = open(filename, "wb")
+    f.write(picture.content)
+    f.close()
+    print(f"Saved {filename}")
+
+After the loop fetching user data, you loop through the "results" array within the user dictionary, which 
+contains individual user records.
+
+You create a filename using the first and last names of the user, converted to lowercase, and append ".jpg" at 
+the end. This will be the filename for the downloaded image.
+You then send a GET request to the URL provided in the "picture" field of the user data, which points to the 
+user's profile picture. The picture is downloaded as binary content.
+You open the file specified by filename in binary write mode ("wb"), write the binary content of the picture to
+the file, and then close the file.
+You print a message indicating that the file has been saved.
+Remember that the current code structure will overwrite the same 10 user profiles' images 10 times. 
+If you intend to get 10 different sets of random user profiles and save their images, you should move the code
+that fetches user data inside the loop, so that new data is fetched in each iteration.
