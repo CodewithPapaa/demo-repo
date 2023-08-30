@@ -1,0 +1,173 @@
+link:
+https://day89100days.codewithpapaa.repl.co/
+
+from flask import Flask, request, redirect
+import datetime
+from replit import db    
+
+app = Flask(__name__)  
+
+def getChat(isAdmin):
+  message = ""
+  f = open("message.html", "r")
+  message = f.read()
+  f.close()
+  keys = db.keys()
+  keys = list(keys)
+  result = ""
+  recent = 0
+  for key in reversed(keys):
+    myMessage = message
+    myMessage = myMessage.replace("{username}", db[key]["username"])
+    myMessage = myMessage.replace("{timestamp}", key)
+    myMessage = myMessage.replace("{message}", db[key]["message"])
+
+    if db[key]["userid"] == "551998":
+      myMessage = myMessage.replace("{admin}", f"""<a href="/delete?id={key}"> ❌</a>""")
+    else:
+      myMessage = myMessage.replace("{admin}", "")
+    result += myMessage
+    recent += 1
+    if recent == 5:
+      break
+  return result    
+
+
+@app.route('/')       
+def index():
+  page = ""
+  f = open("chat.html", "r")
+  page = f.read()
+  f.close()
+  page = page.replace("{username}", request.headers["X-Replit-User-Name"])
+  page = page.replace("{chats}", getChat(request.headers["X-Replit-User-Id"]))
+  return page
+
+@app.route("/add", methods=["POST"])
+def add():
+  form = request.form
+  message = form["message"]
+  date = datetime.datetime.now()
+  timestamp = datetime.datetime.timestamp(date)
+  userid = request.headers["X-Replit-User-Id"]
+  username = request.headers["X-Replit-User-Name"]
+  db[timestamp] = {"userid": userid, "username": username, "message": message}
+  #page = f"""{userid} {username} {timestamp} {message}"""
+  return redirect("/")
+
+@app.route("/delete", methods=["GET"])
+def delete():
+  if request.headers["X-Replit-User-Id"] != "551998":
+    return redirect("/")
+  results = request.values["id"]
+  del db[results]
+  return redirect("/")
+
+app.run(host='0.0.0.0', port=81)   
+
+
+
+
+message.html:
+
+<h3>{username}</h3>
+<h4>{timestamp}{admin}</h4>
+<p>(message)</p>
+
+
+
+chat.html:
+
+<html>
+  <head>
+    <title>Community Chat</title> 
+  </head>
+  <body>
+    <h1>Community Chat</h1>
+    <h2>You are logged in as {username}</h2>
+    <hr>
+    {chats}
+    <hr>
+    <form method="post" action="/add"> 
+      <p>Message: <input type="text" name="message" required></p>
+      <button type="submit">Send</button></form>
+
+  </body>
+</html>
+
+
+Explanation:
+
+
+Importing Libraries:
+
+from flask import Flask, request, redirect
+import datetime
+from replit import db
+
+Here, you're importing necessary modules:
+
+Flask: This is the web framework that's being used to build the web application.
+request: It is used to access data sent in the request from the client (in this case, the browser).
+redirect: Used to perform URL redirection.
+datetime: Used to work with dates and times.
+replit.db: It seems to be used as a simple database, similar to a dictionary, to store chat messages.
+
+
+Creating the Flask App:
+
+app = Flask(__name__)
+This initializes a Flask web application.
+
+
+Defining getChat Function:
+
+def getChat(isAdmin):
+    # ... (function implementation)
+This function seems to retrieve chat messages. It takes a boolean parameter isAdmin, but in the code, it isn't used. 
+The function reads HTML content from "message.html", replaces placeholders like {username}, {timestamp}, and {message} with 
+actual data from the database, and prepares a string containing these formatted messages.
+
+Additionally, if the user ID is that of the admin ("551998"), it adds a delete link.
+
+
+Defining the index Route:
+
+@app.route('/')
+def index():
+    # ... (function implementation)
+This function handles the root route ("/"). It reads HTML content from "chat.html", replaces the placeholder {username} with 
+the user's name, calls getChat to get recent chat messages, and replaces the {chats} placeholder with these messages.
+
+
+Defining the add Route:
+
+@app.route("/add", methods=["POST"])
+def add():
+    # ... (function implementation)
+This function handles the "/add" route. It listens for POST requests, which typically occur when a user submits a message.
+It extracts the submitted message, current timestamp, user ID, and username from the request headers. Then, it adds this 
+information to the database as a new chat message entry.
+
+
+Defining the delete Route:
+
+@app.route("/delete", methods=["GET"])
+def delete():
+    # ... (function implementation)
+This function handles the "/delete" route. It listens for GET requests. If the user ID in the request headers is 
+the admin's ID ("551998"), it extracts the message ID to be deleted from the query parameters and removes it from the database.
+
+
+Running the App:
+
+app.run(host='0.0.0.0', port=81)
+This line starts the Flask app and makes it accessible on all available network interfaces on port 81.
+
+It's worth noting that this code doesn't have a lot of security checks or validations, so it might not be suitable for a production
+environment. For example, it doesn't sanitize user inputs, handle exceptions, or employ user authentication.
+
+
+
+
+
