@@ -1,0 +1,91 @@
+import requests, json, os, time
+from replit import db
+
+while (True):
+  time.sleep(1)
+  os.system("clear")
+  result = requests.get("https://icanhazdadjoke.com/", headers={"Accept":"application/json"}) 
+  joke = result.json()
+  
+  jk = joke["joke"]
+  id = joke["id"]
+  print(jk)
+  answer = input("\n(s)ave joke, (l)oad old jokes, (n)ew joke\n> ").lower()
+  if answer=="n":
+    continue
+  elif answer == "s":
+    db[id] = jk
+    print("\nSAVED\n")
+    continue
+  else: 
+    keys = db.keys()
+    for key in keys:
+      result = requests.get(f"https://icanhazdadjoke.com/j/{key}", headers={"Accept":"application/json"})
+      joke = result.json()
+      print(joke["joke"])
+      print("\n")
+      time.sleep(1)
+
+
+Explanation:
+
+import requests, json, os, time
+from replit import db
+
+This section imports necessary libraries and modules: requests for making HTTP requests, json for handling JSON data, 
+os for clearing the terminal screen, time for adding delays, and db from the replit module for interacting with Replit's database.
+
+
+while (True):
+
+This starts an infinite loop that will repeatedly execute the code inside it until explicitly stopped.
+
+
+  time.sleep(1)
+  os.system("clear")
+
+This line adds a delay of 1 second and clears the terminal screen. It's used to refresh the display every second.
+
+
+  result = requests.get("https://icanhazdadjoke.com/", headers={"Accept":"application/json"}) 
+  joke = result.json()
+  
+  jk = joke["joke"]
+  id = joke["id"]
+
+This block sends a GET request to the "icanhazdadjoke.com" API and retrieves a random dad joke in JSON format. 
+The joke and its unique ID are extracted from the JSON response.
+
+
+  print(jk)
+  answer = input("\n(s)ave joke, (l)oad old jokes, (n)ew joke\n> ").lower()
+
+The joke is printed to the screen, and the program waits for user input. The user is presented with options:
+"s" to save the current joke to the database
+"l" to load and display previously saved jokes
+"n" to fetch a new joke
+
+
+  if answer=="n":
+    continue
+  elif answer == "s":
+    db[id] = jk
+    print("\nSAVED\n")
+    continue
+  else: 
+    keys = db.keys()
+    for key in keys:
+      result = requests.get(f"https://icanhazdadjoke.com/j/{key}", headers={"Accept":"application/json"})
+      joke = result.json()
+      print(joke["joke"])
+      print("\n")
+      time.sleep(1)
+
+If the user chooses "n", the loop continues and fetches another new joke.
+If the user chooses "s", the current joke is saved to the database using the joke's unique ID as the key.
+If the user chooses anything else, the program enters a loop that loads and displays all previously saved jokes from the 
+database using their respective IDs.
+
+
+This program provides a simple interactive experience for fetching, saving, and displaying dad jokes from an API while 
+interacting with Replit's database.
