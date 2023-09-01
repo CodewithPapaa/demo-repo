@@ -20,3 +20,67 @@ for article in data["articles"]:
   prompt = (f"""Summarise {article["url"]} in one sentence.""")
   response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0, max_tokens=20)
   print(response["choices"][0]["text"].strip())
+
+
+
+EXPLANATION:
+
+
+import os, requests, json, openai
+
+This line imports the required Python libraries/modules: os for handling environment variables, 
+requests for making HTTP requests, json for working with JSON data, and openai for using the OpenAI API.
+
+
+news = os.environ['news']
+openai.organisation = os.environ['organisationID']
+openai.api_key = os.environ['openai']
+
+These lines retrieve API keys and organization IDs from environment variables.
+It assumes that you've stored your News API key in an environment variable named 'news,' your OpenAI organization ID in 
+an environment variable named 'organisationID,' and your OpenAI API key in an environment variable named 'openai.'
+
+
+openai.Model.list()
+
+This line lists available OpenAI models, but it doesn't store or use the result in your code. It appears to be a redundant
+call in this context.
+
+
+country = "gb"
+url = f"https://newsapi.org/v2/top-headlines?country={country}&apiKey={news}"
+
+These lines specify the target country code (in this case, "gb" for Great Britain) and construct a URL for fetching top headlines
+from the News API. The constructed URL includes the country code and your News API key.
+
+
+result = requests.get(url)
+data = result.json()
+
+These lines make an HTTP GET request to the News API using the constructed URL and store the JSON response in the data variable. 
+It effectively retrieves the top news headlines for the specified country.
+
+
+counter = 0
+
+This line initializes a counter variable to keep track of the number of articles processed.
+
+
+for article in data["articles"]:
+  counter +=1
+  if counter > 5:
+    break
+  prompt = (f"""Summarise {article["url"]} in one sentence.""")
+  response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0, max_tokens=20)
+  print(response["choices"][0]["text"].strip())
+
+This block of code iterates through the articles in the data JSON response:
+
+It increments the counter by 1 for each article.
+It checks if the counter has exceeded 5 articles; if so, it breaks out of the loop (limiting it to processing the top 5 articles).
+It constructs a prompt for generating a summary for the article by inserting the article's URL into the text.
+It uses OpenAI's Completion.create() method to generate a one-sentence summary for the article. It sets the 
+model to "text-davinci-002" (an OpenAI model), temperature to 0 (which makes the output more deterministic), and max_tokens
+to 20 (limiting the length of the generated summary).
+Finally, it prints the generated summary for each article.
+This loop effectively generates and prints one-sentence summaries for the top 5 news articles from the specified country.
