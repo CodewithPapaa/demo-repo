@@ -1,0 +1,82 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://www.yelp.co.uk/search?find_desc=Restaurants&find_loc=San+Francisco%2C+CA%2C+United+States"
+
+response = requests.get(url)
+html = response.text
+
+soup = BeautifulSoup(html, 'html.parser')
+
+myLinks = soup.find_all("a", {"class":"css-1m051bw"}) 
+
+print(len(myLinks))
+counter = 0
+for link in myLinks:
+  if counter > 1:
+    print(link.text)
+    print(f"""https://www.yelp.com{link["href"]}""")
+  counter +=1
+
+
+Explanation:
+
+The code you provided is a Python script that uses the requests library to make an HTTP GET request to the Yelp website's
+search page for restaurants in San Francisco, CA. It then uses the BeautifulSoup library to parse the HTML content of the response.
+
+Let's break down the code step by step:
+
+Import the necessary libraries:
+
+import requests
+from bs4 import BeautifulSoup
+
+
+Define the URL of the Yelp search page for restaurants in San Francisco:
+
+url = "https://www.yelp.co.uk/search?find_desc=Restaurants&find_loc=San+Francisco%2C+CA%2C+United+States"
+
+
+Send an HTTP GET request to the specified URL and store the response in the response variable:
+
+response = requests.get(url)
+
+
+Extract the HTML content of the response:
+
+html = response.text
+
+
+Create a BeautifulSoup object to parse the HTML:
+
+soup = BeautifulSoup(html, 'html.parser')
+
+
+Find all the HTML anchor (<a>) elements with the class "css-1m051bw" and store them in the myLinks variable:
+
+myLinks = soup.find_all("a", {"class": "css-1m051bw"})
+
+
+Print the number of links found:
+
+print(len(myLinks))
+
+
+Iterate through the found links and print their text (the text displayed on the webpage) and the full URL 
+(constructed by appending the "href" attribute of each link to the base Yelp URL):
+
+counter = 0
+for link in myLinks:
+    if counter > 1:
+        print(link.text)
+        print(f"""https://www.yelp.com{link["href"]}""")
+    counter += 1
+
+
+The code counts the number of links with the specified class and then iterates through them, printing the text and the full URL
+of each link. The counter variable is used to skip the first two links (with counter less than or equal to 1) because they might
+be navigation links or other non-essential links.
+
+Overall, this script is a basic web scraping example that extracts restaurant links from the Yelp search page for San Francisco. 
+Keep in mind that web scraping may be subject to terms of service and legal restrictions imposed by websites, so make sure you 
+are scraping data in compliance with Yelp's terms and conditions.
