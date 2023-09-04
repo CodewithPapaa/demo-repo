@@ -1,0 +1,91 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://news.ycombinator.com/"
+
+response = requests.get(url)
+html = response.text
+
+soup = BeautifulSoup(html, 'html.parser')
+
+
+#<span class="titleline"><a href="https://www.nature.com/articles/d41586-023-02741-z" rel="noreferrer">Medical-evidence giant Cochrane battles funding cuts and closures</a><span class="sitebit comhead"> (<a href="from?site=nature.com"><span class="sitestr">nature.com</span></a>)</span></span>
+
+myLinks = soup.find_all("span", {"class": "titleline"})
+
+#print(len(myLinks))
+things = ["replit", "python","apple", "microsoft"]
+
+for link in myLinks:
+  text = link.text
+  textList = text.split()
+  containsWord = False
+  for word in textList:
+    if word.lower() in things:
+      containsWord = True
+  if containsWord:
+    print(link.text)
+    
+    myLink = link.find_all("a")
+    print(myLink[0]["href"])
+
+
+Explanation:
+
+Certainly! The provided Python script is designed to scrape and filter links from the Hacker News website 
+(https://news.ycombinator.com/). It searches for and extracts links that contain specific keywords related to 
+"replit," "python," "apple," and "microsoft."
+
+Here's a detailed explanation of how the code works:
+
+Import the necessary Python libraries, requests and BeautifulSoup.
+
+Define the URL of the Hacker News website:
+
+url = "https://news.ycombinator.com/"
+
+
+Send an HTTP GET request to the specified URL and store the response in the response variable:
+
+response = requests.get(url)
+
+
+Extract the HTML content of the response:
+
+html = response.text
+
+
+Create a BeautifulSoup object to parse the HTML:
+
+soup = BeautifulSoup(html, 'html.parser')
+
+
+Find all the HTML <span> elements with the class "titleline" and store them in the myLinks variable:
+
+myLinks = soup.find_all("span", {"class": "titleline"})
+
+
+Define a list of keywords (in lowercase) that you want to search for in the link text:
+
+things = ["replit", "python", "apple", "microsoft"]
+
+
+Iterate through the myLinks list and check if any of the keywords are present in the link text:
+
+The script splits the link text into words and checks if any of the lowercase versions of the keywords are found in the text.
+If at least one keyword is found in the link text, it sets containsWord to True.
+
+
+If containsWord is True, the script prints the following information:
+
+The link text (which is the title of the article or post).
+The URL of the article, which is extracted from the first <a> element inside the <span> element:
+
+myLink = link.find_all("a")
+print(myLink[0]["href"])
+
+The script repeats this process for each matching link found on the Hacker News page.
+
+This code essentially filters and prints out links to articles or posts on the Hacker News website that contain any of the 
+specified keywords ("replit," "python," "apple," or "microsoft") in their titles.
+  
