@@ -1,0 +1,117 @@
+import schedule, time, os, smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+password = os.environ['mailPassword']
+username = os.environ['mailUsername']
+
+def sendMail():
+  email = "Don't forget to take a break!"
+  server = "smtp.gmail.com"
+  port = 587
+  s = smtplib.SMTP(host = server, port = port)
+  s.starttls()
+  s.login(username, password)
+
+  msg = MIMEMultipart()
+  msg['To'] = "recipient@email.com"
+  msg['From'] = username
+  msg['Subject'] = "Take a BREAK"
+  msg.attach(MIMEText(email, 'html'))
+
+  s.send_message(msg)
+  del msg
+
+
+
+def printMe():
+  print("⏰ Sending Reminder")
+  sendMail()
+
+schedule.every(1).hours.do(printMe)
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)
+
+
+EXPLANATION:
+
+Certainly! The code you provided is a Python script that schedules and sends email reminders at regular intervals using the
+schedule library and the smtplib library for email communication. Here's a breakdown of how the code works:
+
+Importing Libraries:
+
+import schedule, time, os, smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+The script begins by importing the necessary libraries:
+
+schedule is used for scheduling tasks at specific intervals.
+time is used for time-related functions.
+os is used for accessing environment variables (for email credentials).
+smtplib is used for sending emails.
+MIMEMultipart and MIMEText are classes from the email.mime module used for constructing and formatting email messages.
+
+
+Setting Email Credentials:
+
+password = os.environ['mailPassword']
+username = os.environ['mailUsername']
+
+The script retrieves email credentials (username and password) from environment variables. 
+These credentials are used to log in to the email account from which the reminders will be sent.
+
+
+Defining the sendMail Function:
+
+def sendMail():
+  # ...
+
+This function is responsible for sending email reminders. It configures the SMTP server, logs in using the provided credentials,
+constructs an email message, and sends it.
+
+
+Creating and Sending Email:
+Inside the sendMail function, the following steps are performed:
+
+The email content and details are defined, including the recipient's email address, subject, and message body.
+The SMTP server (in this case, Gmail's SMTP server) and port are specified.
+A secure connection to the SMTP server is established using TLS (starttls()).
+The script logs in to the email account using the provided username and password.
+An email message is constructed with the specified sender, recipient, subject, and message body.
+The email is sent using the s.send_message(msg) method.
+
+
+Defining the printMe Function:
+
+def printMe():
+  # ...
+This function is a simple function that prints a message when called. It is used as a callback function to send an email reminder.
+
+
+Scheduling Email Reminders:
+
+schedule.every(1).hours.do(printMe)
+
+The script uses the schedule library to schedule the printMe function to run every hour. This means that the "Sending Reminder"
+message will be printed, and the sendMail function will be called at regular intervals.
+
+
+Running the Scheduler:
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)
+
+This loop continually checks if there are any scheduled tasks (in this case, the printMe function) to run. It runs the pending tasks
+and then sleeps for one second before checking again. This loop allows the script to run indefinitely and periodically send email 
+reminders.
+
+In summary, this script sets up a scheduling mechanism to send email reminders at regular intervals, such as once every hour, 
+using the schedule library. It retrieves email credentials from environment variables, establishes a connection to the SMTP server, 
+and sends the email reminders when scheduled.
+
+
+
