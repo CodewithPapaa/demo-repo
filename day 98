@@ -1,0 +1,34 @@
+code so far
+
+import random, os, smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+quotes = []
+f = open("quotes.txt", "r")
+quotes = eval(f.read())
+f.close()
+
+quote = random.choice(quotes)
+print(quote)
+
+password = os.environ['mailPassword']
+username = os.environ['mailUsername']
+
+def sendMail(quote):
+  server = "smtp.gmail.com"
+  port = 587
+  s = smtplib.SMTP(host=server, port=port)
+  s.starttls()
+  s.login(username, password)
+
+  msg = MIMEMultipart
+  msg["To"] = username
+  msg["From"] = username
+  msg["Subject"] = "Daily Inspiration"
+  msg.attach(MIMEText(quotes, 'html'))
+
+  s.send_message(msg)
+  del msg
+
+sendMail(quote)
