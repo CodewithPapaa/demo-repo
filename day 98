@@ -22,7 +22,7 @@ def sendMail(quote):
   s.starttls()
   s.login(username, password)
 
-  msg = MIMEMultipart
+  msg = MIMEMultipart()
   msg["To"] = username
   msg["From"] = username
   msg["Subject"] = "Daily Inspiration"
@@ -32,3 +32,7 @@ def sendMail(quote):
   del msg
 
 schedule.every(24).hours.do(sendMail)
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)
