@@ -1,6 +1,14 @@
 
+import requests
+from bs4 import BeautifulSoup
 
+url = "https://en.wikipedia.org/wiki/Hair_loss"
+response = requests.get(url)
+html = response.text
 
+When you run this,
+The above installs the beautiful soup Library.
+Takes sometime. Better to install before writing any sensible code
 
 
 SOLUTION:
