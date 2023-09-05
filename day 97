@@ -1,0 +1,132 @@
+
+
+
+
+
+SOLUTION:
+
+import requests, os, openai
+from bs4 import BeautifulSoup
+
+url = input("Paste wiki URL > ")
+
+#url = "https://en.wikipedia.org/wiki/Hair_loss"
+response = requests.get(url)
+html = response.text
+
+soup = BeautifulSoup(html, "html.parser")
+
+#div
+#mw-parser-output
+#p
+
+text = ""
+
+article = soup.find_all("div", {"class": "mw-parser-output"})
+
+for articles in article:
+  content = articles.find_all("p")
+
+
+  for p in content:
+    text += p.text
+
+#print(text)
+#todo - send this text to openAI for summary in 3 paragraphs
+
+openai.organisation = os.environ['organisationID']
+openai.api_key = os.environ['openai']
+openai.Model.list()
+
+prompt = f"Summarise the text below in no more than 3 paragraphs. {text}"
+
+response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0, max_tokens=150)
+
+
+refs = soup.find_all("ol", {"class": "references"})
+for ref in refs:
+  print(ref.text.replace("^ ",""))
+
+print(response["choices"][0]["text"].strip())
+
+
+
+EXPLANATION:
+
+Certainly! This Python script appears to be a tool for summarizing text content from a Wikipedia page. 
+Let me explain each section of the code:
+
+Importing Libraries:
+
+import requests, os, openai
+from bs4 import BeautifulSoup
+
+Here, the necessary libraries are imported. requests is used for making HTTP requests to retrieve the web page's content, os 
+for working with the operating system, openai for using OpenAI's GPT-3 API, and BeautifulSoup for parsing HTML content.
+
+
+User Input:
+
+url = input("Paste wiki URL > ")
+
+The script prompts the user to input a URL for a Wikipedia page, which will be used to fetch the content.
+
+
+Fetching and Parsing HTML:
+
+response = requests.get(url)
+html = response.text
+soup = BeautifulSoup(html, "html.parser")
+
+The script fetches the content of the provided URL using the requests library and then uses BeautifulSoup to parse the HTML content.
+
+
+Extracting Article Text:
+
+text = ""
+article = soup.find_all("div", {"class": "mw-parser-output"})
+for articles in article:
+    content = articles.find_all("p")
+    for p in content:
+        text += p.text
+
+This code finds the main content of the Wikipedia article by searching for all div elements with the class
+mw-parser-output and then extracts the text within p (paragraph) tags. The extracted text is concatenated into the text variable.
+
+
+Setting Up OpenAI API:
+
+openai.organisation = os.environ['organisationID']
+openai.api_key = os.environ['openai']
+openai.Model.list()
+
+This code sets up the OpenAI API by specifying the organization ID and API key. It also lists the available models.
+
+
+Prompting for Text Summarization:
+
+prompt = f"Summarise the text below in no more than 3 paragraphs. {text}"
+response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0, max_tokens=150)
+
+It creates a prompt for summarizing the extracted text using OpenAI's GPT-3. The text variable is included in the prompt, 
+and the script sends a request to the GPT-3 model for summarization.
+
+
+Extracting References:
+
+refs = soup.find_all("ol", {"class": "references"})
+for ref in refs:
+    print(ref.text.replace("^ ",""))
+
+Finally, the script extracts and prints the references from the Wikipedia page. It finds ol (ordered list) elements with the
+class references and removes any leading "^ " characters from the text.
+
+
+Displaying the Summarized Text:
+
+print(response["choices"][0]["text"].strip())
+
+This line prints the summarized text obtained from the GPT-3 response.
+
+In summary, this script takes a Wikipedia URL as input, extracts the main article content,
+summarizes it using the OpenAI GPT-3 model, and also displays the references from the Wikipedia page.
