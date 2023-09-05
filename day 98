@@ -1,4 +1,4 @@
-code so far
+DAY 98 SOLUTION
 
 import random, os, smtplib, schedule, time
 from email.mime.multipart import MIMEMultipart
