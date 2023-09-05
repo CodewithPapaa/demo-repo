@@ -1,6 +1,6 @@
 code so far
 
-import random, os, smtplib
+import random, os, smtplib, schedule, time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -26,9 +26,9 @@ def sendMail(quote):
   msg["To"] = username
   msg["From"] = username
   msg["Subject"] = "Daily Inspiration"
-  msg.attach(MIMEText(quotes, 'html'))
+  msg.attach(MIMEText(quote, 'html'))
 
   s.send_message(msg)
   del msg
 
-sendMail(quote)
+schedule.every(24).hours.do(sendMail)
