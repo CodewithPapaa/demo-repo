@@ -1,4 +1,24 @@
-DAY 98 SOLUTION
+First get your quotes online.
+
+THEN,
+
+quotes = []
+
+# Open the file for reading
+with open("quotes.txt", "r") as f:
+    # Read each line in the file and append it to the quotes list
+    for line in f:
+        quotes.append(line.strip())  # Strip removes leading/trailing whitespace
+
+# Now, quotes contains the lines from the file as separate elements in a list
+print(quotes)
+
+
+the code provided turns the quotes into a list (which is similar to an array in many programming languages).
+Each line in your "quotes.txt" file is read and stored as a separate element in the list quotes
+
+
+THEN THE SOLUTION
 
 import random, os, smtplib, schedule, time
 from email.mime.multipart import MIMEMultipart
