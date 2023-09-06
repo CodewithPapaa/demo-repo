@@ -1,0 +1,176 @@
+import requests, schedule, time, os, smtplib
+from bs4 import BeautifulSoup
+from replit import db
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
+interests = ["teams", "education"]
+
+keys = db.keys()
+for key in keys:
+  del db[key]
+  
+def email(text,link):
+  password = os.environ['mailPassword']
+  username = os.environ['mailUsername']
+  host = "smtp.gmail.com"
+  port = 587
+  s = smtplib.SMTP(host=host, port=port)
+  s.starttls()
+  s.login(username, password)
+
+  msg = MIMEMultipart()
+  msg["To"] = username
+  msg["From"] = username
+  msg["Subject"] = "New Community Event"
+  text = f"""<a href="{link}">{text}</a>"""
+  msg.attach(MIMEText(text, 'html'))
+  s.send_message(msg)
+  del msg
+
+def getHub():
+  
+  url = "https://replit.com/community-hub"
+  
+  response = requests.get(url)
+  html = response.text
+  
+  soup = BeautifulSoup(html, "html.parser")
+  
+  #div
+  #css-iqtp75
+  
+  myLinks = soup.find_all("div", {"class": "css-iqtp75"})
+  
+  
+  counter = 0
+  keys = db.keys()
+  for link in myLinks:
+    if "Community Spaces" in link.text:
+      break
+    if counter!=0:
+      print(link.text)
+      thisLink = link.find("a")['href']
+      print(thisLink)
+      words = link.text.split()
+      amInterested = False
+      for word in words:
+        if word.lower() in interests:
+          amInterested = True
+      if amInterested and link.text not in keys:
+        db[link.text] = thisLink
+        #todo add the email bit
+        email(link.text, thisLink)
+    counter += 1
+
+getHub()
+
+schedule.every(3).hours.do(getHub)
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)
+
+
+
+EXPLANATON:
+
+Certainly! Let's go through each section of the code and explain its purpose and functionality in more detail:
+
+
+import requests, schedule, time, os, smtplib
+from bs4 import BeautifulSoup
+from replit import db
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+In this section, the script imports several Python libraries that are used throughout the code. Here's what each library is for:
+
+requests: Used for making HTTP requests to fetch web pages.
+schedule: Used for scheduling tasks to run at specified intervals.
+time: Provides various time-related functions.
+os: Used for interacting with the operating system, e.g., for reading environment variables.
+smtplib: Used for sending emails via the Simple Mail Transfer Protocol (SMTP).
+BeautifulSoup: A library for parsing HTML content.
+replit: A library for working with a database.
+email.mime.multipart and email.mime.text: Modules for constructing email messages.
+
+
+interests = ["teams", "education"]
+
+This line defines a list called interests, which contains keywords or topics that the script will look for in the community events. 
+Events related to these keywords will trigger email notifications.
+
+
+keys = db.keys()
+for key in keys:
+  del db[key]
+
+Here, the script clears the database (db) by deleting all existing keys. This ensures that the database starts empty before adding
+new data.
+
+
+def email(text, link):
+    # ...
+    # (The email function is defined here, we'll explain it later)
+
+This section defines a function named email that sends email notifications. It sets up an SMTP connection and uses it to send
+emails with a given text and link.
+
+
+def getHub():
+    # ...
+    # (The getHub function is defined here, we'll explain it later)
+
+This section defines a function named getHub, which is the core of the script. It fetches community events from a web page and
+processes them.
+
+
+getHub()
+
+This line immediately calls the getHub function to fetch and process community events from the web page when the script starts.
+
+
+schedule.every(3).hours.do(getHub)
+
+This line schedules the getHub function to run every 3 hours. It uses the schedule library to set up this periodic task.
+
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+This is the main loop of the script, which runs indefinitely (while True).
+schedule.run_pending() checks if any scheduled tasks, like getHub, are due to run. If they are, it executes them.
+time.sleep(1) adds a 1-second delay to avoid excessive CPU usage while waiting for the next scheduled run.
+Now, let's dive deeper into the getHub function and the email function:
+
+
+def getHub():
+    # ...
+    # (This section fetches and processes community events, explained below)
+
+The getHub function fetches and processes community events from a web page. It does the following:
+Sends an HTTP GET request to the "https://replit.com/community-hub" URL to fetch the content of the community hub webpage.
+Parses the HTML content using BeautifulSoup to extract relevant information.
+Finds all div elements with the class "css-iqtp75" on the page. These elements likely contain information about community events.
+Iterates through the found elements to extract event information.
+Checks if the event matches the interests specified in the interests list.
+If it matches and is not already in the database, it adds the event to the database and sends an email notification using the email 
+function.
+
+
+def email(text, link):
+    # ...
+    # (This section sends an email with the provided text and link, explained below)
+
+The email function sends email notifications. It does the following:
+Retrieves the email username and password from environment variables (mailUsername and mailPassword).
+Sets up an SMTP connection with a Gmail SMTP server.
+Constructs an email message with the provided text and link.
+Sends the email message.
+
+These two functions work together to scrape community events from a webpage, filter them based on interests, store them 
+in a database, and send email notifications for the events of interest. The script runs this process periodically to keep users
+updated on relevant events.
