@@ -57,3 +57,88 @@ schedule.every(24).hours.do(sendMail)
 while True:
   schedule.run_pending()
   time.sleep(1)
+
+
+EXPLANATION:
+
+
+import random, os, smtplib, schedule, time
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+This part of the code imports necessary libraries and modules.
+
+random is used for random quote selection.
+os is used for handling environment variables.
+smtplib is used for sending emails.
+schedule is used for scheduling tasks.
+time is used for time-related operations.
+MIMEMultipart and MIMEText are from the email.mime module and are used to create email messages.
+
+
+quotes = []
+f = open("quotes.txt", "r")
+quotes = eval(f.read())
+f.close()
+
+This section of the code deals with reading quotes from a file.
+
+An empty list called quotes is created to store the quotes.
+The script attempts to open the file "quotes.txt" in read mode ("r").
+It then reads the entire content of the file as a string using f.read().
+The eval() function is used to evaluate this string as Python code, which is problematic if the file contains plain text and 
+not valid Python code.
+The result of eval() is assigned to the quotes list, potentially overwriting the empty list.
+
+
+password = os.environ['mailPassword']
+username = os.environ['mailUsername']
+
+Here, the script retrieves the email username and password from environment variables. This is a common practice for storing
+sensitive information securely, as environment variables can be set outside of the script.
+
+
+def sendMail(quote):
+  quote = random.choice(quotes)
+  print(quote)
+  server = "smtp.gmail.com"
+  port = 587
+  s = smtplib.SMTP(host=server, port=port)
+  s.starttls()
+  s.login(username, password)
+
+  msg = MIMEMultipart()
+  msg["To"] = username
+  msg["From"] = username
+  msg["Subject"] = "Daily Inspiration"
+  msg.attach(MIMEText(quote, 'html'))
+
+  s.send_message(msg)
+  del msg
+
+This part of the code defines the sendMail function, which sends an email with a random quote.
+
+It selects a random quote from the quotes list using random.choice(quotes).
+It sets up the SMTP server configuration for Gmail (assuming it's a Gmail account).
+The email message is created with the subject "Daily Inspiration," and the random quote is attached as the message body.
+
+
+schedule.every(24).hours.do(sendMail)
+
+This line schedules the sendMail function to run every 24 hours using the schedule library. It means the script will send a daily
+inspirational email.
+
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)
+
+This is the main loop of the script.
+It continuously checks if there are any scheduled tasks to run (schedule.run_pending()).
+If there are tasks to run, they will be executed.
+It then waits for 1 second (time.sleep(1)) before checking again, ensuring the script keeps running to send emails daily.
+
+
+In summary, this script reads quotes from a file, selects a random quote, and sends it as a daily inspirational email using a 
+Gmail account. However, it's essential to ensure the format of the "quotes.txt" file and to handle email credentials securely. 
+Additionally, consider potential error handling for robustness.
