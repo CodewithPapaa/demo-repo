@@ -1,0 +1,139 @@
+from replit import db
+import requests, schedule, time, os, smtplib
+from bs4 import BeautifulSoup
+from replit import db
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
+
+def addToDB():
+  link = input("Link: ")
+  price = float(input("Price: "))
+  db[time.time()] = {"link": link, "price" : None, "level": price}
+
+def emailMe(level, price, link):
+  password = os.environ['mailPassword']
+  username = os.environ['mailUsername']
+  host = "smtp.gmail.com"
+  port = 587
+  s = smtplib.SMTP(host=host, port=port)
+  s.starttls()
+  s.login(username, password)
+
+  msg = MIMEMultipart()
+  msg["To"] = username
+  msg["From"] = username
+  msg["Subject"] = "Product is Cheaper!"
+  text = f"""<p><a href='{link}'>This item</a> is now {price} which is below your purchase level of {level}</p>"""
+  msg.attach(MIMEText(text, 'html'))
+  s.send_message(msg)
+  del msg
+
+def update():
+  keys = db.keys()
+  for key in keys:
+    url = db[key]["link"]
+    url = db[key]["price"]
+    level = db[key]["level"]
+    response = requests.get(url)
+    html = response.text
+  
+    soup = BeautifulSoup(html, "html.parser")
+  
+    myPrice = soup.find_all("span", {"class": "price"})
+  
+    thisPrice = float(myPrice[0].text[1:].replace(",",""))
+  
+    if thisPrice != price:
+      db[key]["price"] = thisPrice
+    if thisPrice <= level:
+        print("Cheaper")
+        emailMe(level, price, url)
+
+schedule.every(1).day.do(update)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+
+
+
+EXPLANATION:
+
+Importing Libraries:
+
+from replit import db
+import requests, schedule, time, os, smtplib
+from bs4 import BeautifulSoup
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+Here, you import various libraries that your script will use, including replit for database management, requests for making HTTP requests, 
+schedule for scheduling tasks, time for adding delays, os for accessing environment variables, smtplib for sending email, BeautifulSoup for parsing HTML, and email-related modules.
+
+
+addToDB Function:
+
+def addToDB():
+    link = input("Link: ")
+    price = float(input("Price: "))
+    db[time.time()] = {"link": link, "price": None, "level": price}
+
+This function allows you to manually add items to the database (db). It prompts you to input a link and a price, and then stores this information in the database under a 
+timestamp as the key.
+
+
+emailMe Function:
+
+def emailMe(level, price, link):
+    # ... Email configuration ...
+    msg = MIMEMultipart()
+    msg["To"] = username
+    msg["From"] = username
+    msg["Subject"] = "Product is Cheaper!"
+    # ... Email content ...
+    s.send_message(msg)
+    del msg
+
+This function sends an email if the price of a product is below a specified level. It uses the smtplib library to send the email and constructs the email message using MIMEText.
+You need to provide your email configuration (username and password) as environment variables.
+
+
+update Function:
+
+def update():
+    keys = db.keys()
+    for key in keys:
+        url = db[key]["link"]
+        url = db[key]["price"]
+        level = db[key]["level"]
+        # ... HTTP request ...
+        # ... Parsing HTML ...
+        # ... Price comparison ...
+        if thisPrice <= level:
+            print("Cheaper")
+            emailMe(level, price, url)
+
+This function iterates through the items in the database and checks if the current price (retrieved from a website) is below the specified price level. 
+If it's cheaper, it prints "Cheaper" and calls the emailMe function to send an email.
+
+
+Scheduling update Function:
+
+schedule.every(1).day.do(update)
+
+This line schedules the update function to run every day using the schedule library.
+
+
+Main Loop:
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+This is the main loop of your program. It continuously checks for scheduled tasks (such as update) to run and sleeps for 1 second between iterations.
+
+Make sure you have configured the email settings (mailPassword and mailUsername) as environment variables, and that the URLs, price levels, and other configurations are set 
+correctly for your specific use case.
